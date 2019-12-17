@@ -14,7 +14,7 @@ namespace NTPClient
             ntpData[0] = 0x1B; //LeapIndicator = 0 (no warning), VersionNum = 3 (IPv4 only), Mode = 3 (Client Mode)
 
             var addresses = Dns.GetHostEntry(ntpServer).AddressList;
-            var ipEndPoint = new IPEndPoint(addresses[0], 123);
+            var ipEndPoint = new IPEndPoint(addresses.First(ip => ip.AddressFamily == AddressFamily.InterNetwork), 123);
             using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp))
             {
                 socket.Connect(ipEndPoint);
